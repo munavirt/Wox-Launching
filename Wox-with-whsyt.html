@@ -1,0 +1,2657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wox Sofa Studio | Custom Compressed Sofas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f6b93c;
+            --accent: #e6a229;
+            --light: #ffffff;
+            --dark: #1a1a1a;
+            --gray: #7a7a7a;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --header-height: 80px;
+            --whatsapp-green: #25D366;
+            --whatsapp-dark: #128C7E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--primary);
+            background-color: white;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(246, 185, 60, 0.4);
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            transform: translateY(0);
+            backdrop-filter: blur(10px);
+            height: var(--header-height);
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif;
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links li {
+            display: inline-block;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links .btn {
+            margin-left: 0;
+            padding: 12px 28px;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            margin: 6px 0;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* FIXED HERO SECTION - Image Size Fixed */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+            padding-top: var(--header-height);
+        }
+
+        .hero-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            padding: 0 20px;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+            padding-right: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.8rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .hero-slide.active .hero h1 {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            margin-bottom: 30px;
+            opacity: 0.9;
+            color: var(--gray);
+            font-weight: 300;
+            max-width: 500px;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        .hero-slide.active .hero p {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero-features {
+            margin-bottom: 40px;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-slide.active .hero-feature:nth-child(1) {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+        .hero-slide.active .hero-feature:nth-child(2) {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.7s;
+        }
+        .hero-slide.active .hero-feature:nth-child(3) {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.8s;
+        }
+        .hero-slide.active .hero-feature:nth-child(4) {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.9s;
+        }
+
+        .hero-feature i {
+            color: var(--secondary);
+            margin-right: 15px;
+            font-size: 1.3rem;
+            min-width: 24px;
+        }
+
+        .hero-feature span {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+        }
+
+        .hero-slide.active .btn {
+            animation: fadeInUp 0.8s ease forwards 1s;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* FIXED: Hero Image Container - Larger on desktop */
+        .hero-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: fadeInRight 0.8s ease forwards;
+            opacity: 0;
+            height: 100%;
+            min-height: 500px;
+        }
+
+        .hero-slide.active .hero-image {
+            animation: fadeInRight 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* FIXED: Hero Images - Much larger on desktop */
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            max-height: 700px;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+            max-width: 800px;
+            min-width: 600px;
+            transform: scale(1.2); /* Scale up the images */
+            transform-origin: center;
+        }
+
+        /* Progress Indicators */
+        .progress-indicators {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .progress-indicator {
+            width: 40px;
+            height: 4px;
+            background-color: rgba(44, 62, 80, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .progress-indicator.active {
+            background-color: rgba(246, 185, 60, 0.3);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--secondary);
+            transition: width 3s linear;
+        }
+
+        .progress-indicator.active .progress-bar {
+            width: 100%;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(246, 185, 60, 0.05);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        /* WhatsApp Chat Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .whatsapp-button {
+            width: 60px;
+            height: 60px;
+            background-color: var(--whatsapp-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+            background-color: var(--whatsapp-dark);
+        }
+
+        .whatsapp-button i {
+            transition: var(--transition);
+        }
+
+        .whatsapp-button.active i {
+            transform: rotate(180deg);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        .whatsapp-chat {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 320px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-chat.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--whatsapp-dark), var(--whatsapp-green));
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header i {
+            font-size: 24px;
+        }
+
+        .chat-header h4 {
+            font-size: 16px;
+            margin: 0;
+            flex: 1;
+        }
+
+        .chat-header span {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chat-body {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .welcome-message {
+            background: #f0f0f0;
+            padding: 12px 16px;
+            border-radius: 12px 12px 12px 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .welcome-message::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 15px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #f0f0f0;
+        }
+
+        .chat-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .chat-option {
+            display: block;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .chat-option:hover {
+            background: #f8f8f8;
+            border-color: var(--whatsapp-green);
+            color: var(--whatsapp-dark);
+        }
+
+        .chat-option i {
+            margin-right: 8px;
+            color: var(--whatsapp-green);
+        }
+
+        .chat-footer {
+            padding: 15px 20px;
+            background: #f8f8f8;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .chat-footer p {
+            font-size: 12px;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chat-close:hover {
+            opacity: 1;
+        }
+
+        .whatsapp-cta {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 9998;
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-cta.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .whatsapp-cta i {
+            color: var(--whatsapp-green);
+            font-size: 18px;
+        }
+
+        /* Rest of your existing CSS remains the same for other sections */
+        /* Space Saving Section */
+        .space-saving {
+            background-color: white;
+        }
+
+        .space-saving-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .space-saving-text h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .space-saving-text p {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.7;
+        }
+
+        .space-saving-features {
+            margin-bottom: 30px;
+        }
+
+        .space-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .space-feature i {
+            color: var(--secondary);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .space-saving-image {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .space-saving-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Products Section */
+        .products {
+            background-color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            justify-items: center;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .product-card.animate {
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-content {
+            padding: 25px;
+        }
+
+        .product-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .product-content p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .customizable-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--secondary);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Custom Design Section */
+        .custom-design {
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-design::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(246, 185, 60, 0.03) 0%, rgba(230, 162, 41, 0.05) 100%);
+            z-index: 0;
+        }
+
+        .custom-design-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-design-text h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .custom-design-text p {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.7;
+        }
+
+        .custom-design-features {
+            margin-bottom: 30px;
+        }
+
+        .custom-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .custom-feature i {
+            color: var(--secondary);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .custom-design-image {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-design-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 4px;
+            transition: var(--transition);
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-card.animate {
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.8rem;
+            color: var(--secondary);
+            margin-bottom: 25px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .contact-details {
+            margin-top: 30px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: var(--transition);
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        .contact-detail:hover {
+            background-color: #f9f9f9;
+            transform: translateX(5px);
+        }
+
+        .contact-detail i {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 50%;
+            margin-right: 20px;
+            color: var(--secondary);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .contact-detail:hover i {
+            background-color: var(--secondary);
+            color: white;
+            transform: rotate(15deg);
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        .contact-form.animate {
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(246, 185, 60, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Modern Select Box */
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: white;
+            font-size: 16px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%232c3e50' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .form-group select:hover {
+            border-color: var(--secondary);
+        }
+
+        .form-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(246, 185, 60, 0.2);
+        }
+
+        /* Status Message */
+        .status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Location Section */
+        .location {
+            background-color: white;
+        }
+
+        .location-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .location-info h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .location-info p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .location-details {
+            margin-top: 30px;
+        }
+
+        .location-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: var(--transition);
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        .location-detail:hover {
+            background-color: #f9f9f9;
+            transform: translateX(5px);
+        }
+
+        .location-detail i {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 50%;
+            margin-right: 20px;
+            color: var(--secondary);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .location-detail:hover i {
+            background-color: var(--secondary);
+            color: white;
+            transform: rotate(15deg);
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+
+        .footer-col ul li a:hover {
+            opacity: 1;
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(246, 185, 60, 0.3);
+            border-top: 4px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE DESIGN - Hero Section Image Fixes */
+
+        /* Large Desktops */
+        @media (min-width: 1400px) {
+            .hero-image img {
+                max-width: 900px;
+                min-width: 700px;
+                transform: scale(1.3);
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1200px) {
+            .hero-image img {
+                max-width: 850px;
+                min-width: 650px;
+                transform: scale(1.25);
+            }
+        }
+
+        /* Tablet Landscape to Desktop */
+        @media (min-width: 993px) and (max-width: 1199px) {
+            .hero-image img {
+                max-width: 750px;
+                min-width: 550px;
+                transform: scale(1.2);
+            }
+            
+            .hero-content {
+                max-width: 500px;
+                padding-right: 30px;
+            }
+        }
+
+        /* Tablet Landscape and smaller desktops */
+        @media (min-width: 768px) and (max-width: 992px) {
+            .hero-slide {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                padding-right: 0;
+                margin-bottom: 40px;
+                order: 2;
+            }
+            
+            .hero-image {
+                height: 50%;
+                width: 80%;
+                max-width: 600px;
+                margin-bottom: 40px;
+                order: 1;
+                min-height: 400px;
+            }
+            
+            .hero-image img {
+                max-width: 100%;
+                min-width: auto;
+                transform: scale(1);
+                max-height: 500px;
+            }
+            
+            .hero h1 {
+                font-size: clamp(2.2rem, 5vw, 3rem);
+            }
+            
+            .hero p {
+                margin: 0 auto 30px;
+                max-width: 600px;
+            }
+            
+            .hero-features {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                margin-bottom: 30px;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .hero-feature {
+                margin-bottom: 0;
+                justify-content: center;
+            }
+            
+            .hero-slide.active .hero-image {
+                animation: fadeInUp 0.8s ease forwards;
+                animation-delay: 0.3s;
+            }
+            
+            @keyframes fadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .floating-element:nth-child(1),
+            .floating-element:nth-child(4) {
+                display: none;
+            }
+        }
+
+        /* Tablet Portrait */
+        @media (max-width: 767px) {
+            .navbar {
+                padding: 0;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding-top: 0;
+                transition: var(--transition);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                gap: 30px;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
+            .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
+            .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+
+            .hamburger {
+                display: block;
+            }
+            
+            .hero {
+                min-height: 800px;
+                height: auto;
+                padding: 120px 0 80px;
+            }
+            
+            .hero-slide {
+                position: relative;
+                opacity: 1;
+                visibility: visible;
+                display: none;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+            
+            .hero-slide.active {
+                display: flex;
+            }
+            
+            .hero-container {
+                height: auto;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+                margin-bottom: 25px;
+            }
+            
+            .hero-image {
+                height: 400px;
+                width: 100%;
+                margin-bottom: 30px;
+                min-height: 400px;
+            }
+            
+            .hero-image img {
+                max-width: 100%;
+                min-width: auto;
+                transform: scale(1);
+                max-height: 400px;
+            }
+            
+            .hero-features {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 10px;
+                max-width: 100%;
+                text-align: left;
+            }
+            
+            .hero-feature {
+                justify-content: flex-start;
+            }
+            
+            .progress-indicators {
+                bottom: 30px;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .space-saving-text h2,
+            .custom-design-text h2 {
+                font-size: 2rem;
+            }
+
+            .contact-form {
+                padding: 30px 20px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .space-saving-content,
+            .custom-design-content,
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .space-saving-image,
+            .custom-design-image {
+                order: -1;
+            }
+            
+            /* WhatsApp Widget Responsive */
+            .whatsapp-widget {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .whatsapp-button {
+                width: 56px;
+                height: 56px;
+                font-size: 28px;
+            }
+            
+            .whatsapp-chat {
+                width: 300px;
+                right: -10px;
+            }
+            
+            .whatsapp-cta {
+                bottom: 90px;
+                right: 20px;
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile Phones */
+        @media (max-width: 576px) {
+            .hero {
+                padding: 100px 0 60px;
+                min-height: 700px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-image {
+                height: 350px;
+                min-height: 350px;
+            }
+            
+            .hero-image img {
+                max-height: 350px;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.85rem;
+            }
+            
+            .contact-form {
+                padding: 25px 15px;
+            }
+            
+            .product-card {
+                margin-bottom: 20px;
+            }
+
+            .feature-card {
+                padding: 30px 20px;
+            }
+
+            .footer-grid {
+                gap: 30px;
+            }
+
+            .floating-element {
+                display: none;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-indicators {
+                bottom: 20px;
+                gap: 15px;
+            }
+            
+            .progress-indicator {
+                width: 30px;
+            }
+            
+            /* WhatsApp Widget Responsive */
+            .whatsapp-widget {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .whatsapp-button {
+                width: 52px;
+                height: 52px;
+                font-size: 26px;
+            }
+            
+            .whatsapp-chat {
+                width: 280px;
+                right: -20px;
+            }
+            
+            .whatsapp-cta {
+                display: none;
+            }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 400px) {
+            .hero {
+                min-height: 650px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-image {
+                height: 300px;
+                min-height: 300px;
+            }
+            
+            .hero-image img {
+                max-height: 300px;
+            }
+            
+            .hero-feature span {
+                font-size: 0.95rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            /* WhatsApp Widget Responsive */
+            .whatsapp-chat {
+                width: 260px;
+                right: -30px;
+            }
+        }
+
+        /* Mobile Landscape */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding: 100px 0 60px;
+            }
+            
+            .hero-image {
+                height: 50vh;
+                max-height: 400px;
+                min-height: 400px;
+            }
+            
+            .hero-image img {
+                max-height: 400px;
+            }
+            
+            .hero-content {
+                margin-bottom: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .hero p {
+                margin-bottom: 20px;
+            }
+            
+            .hero-features {
+                margin-bottom: 20px;
+            }
+            
+            .progress-indicators {
+                bottom: 20px;
+            }
+        }
+
+        /* Very Small Mobile */
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-feature span {
+                font-size: 0.9rem;
+            }
+            
+            .hero-image {
+                height: 280px;
+                min-height: 280px;
+            }
+            
+            .hero-image img {
+                max-height: 280px;
+            }
+            
+            /* WhatsApp Widget Responsive */
+            .whatsapp-chat {
+                width: 240px;
+                right: -40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo"><span>Wox</span> Sofa</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#space-saving">Space Saving</a></li>
+                    <li><a href="#products">Sofas</a></li>
+                    <li><a href="#custom">Custom Design</a></li>
+                    <li><a href="#location">Location</a></li>
+                    <li><a href="#contact" class="btn">Get Quote</a></li>
+                </ul>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section with Auto-Rotating Product Showcase -->
+    <section class="hero" id="home">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        <div class="container hero-container">
+            <!-- Slide 1: Transform Sofa -->
+            <div class="hero-slide active" id="slide1">
+                <div class="hero-content">
+                    <h1>Togo</h1>
+                    <p>Experience the revolution in space-saving furniture. Our Togo compresses to 1/3 of its size while maintaining luxurious comfort.</p>
+                    
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <span>Compresses to 1/3 size</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-couch"></i>
+                            <span>Expands to 3-seater sofa</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-palette"></i>
+                            <span>Fully customizable</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>From ₹22,500</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn">Customize This Sofa</a>
+                </div>
+                <div class="hero-image">
+                    <img src="./images/test-togo.png" alt="Transform Sofa">
+                </div>
+            </div>
+
+            <!-- Slide 2: Compact Sofa Pro -->
+            <div class="hero-slide" id="slide2">
+                <div class="hero-content">
+                    <h1>Sofa Cum Bed</h1>
+                    <p>Ultra-thin design that folds to just 4 inches thick. Perfect for modern apartments and small spaces without compromising on style.</p>
+                    
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <span>Folds to 4 inches thick</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-box-open"></i>
+                            <span>Built-in storage compartments</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-palette"></i>
+                            <span>Custom dimensions available</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>From ₹14,499</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn">Customize This Sofa</a>
+                </div>
+                <div class="hero-image">
+                    <img src="./images/ChatGPT Image Dec 4, 2025, 09_32_09 PM.png" alt="Compact Sofa Pro">
+                </div>
+            </div>
+
+            <!-- Progress Indicators -->
+            <div class="progress-indicators">
+                <div class="progress-indicator active" data-slide="0">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="progress-indicator" data-slide="1">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Space Saving Section -->
+    <section class="space-saving" id="space-saving">
+        <div class="container">
+            <div class="space-saving-content">
+                <div class="space-saving-text slide-in-left">
+                    <h2>Revolutionary Space Optimization</h2>
+                    <p>Our compressed sofa technology allows you to transform your living space with sofas that expand when needed and compress for storage. All sofas are fully customizable to your specifications.</p>
+                    
+                    <div class="space-saving-features">
+                        <div class="space-feature">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <span>Up to 70% space saving when compressed</span>
+                        </div>
+                        <div class="space-feature">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                            <span>Easy expansion to full-size sofa</span>
+                        </div>
+                        <div class="space-feature">
+                            <i class="fas fa-tools"></i>
+                            <span>Durable materials with innovative mechanisms</span>
+                        </div>
+                        <div class="space-feature">
+                            <i class="fas fa-couch"></i>
+                            <span>Comfort and style without compromise</span>
+                        </div>
+                        <div class="space-feature">
+                            <i class="fas fa-palette"></i>
+                            <span>Complete customization for all sofas</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#products" class="btn">See How It Works</a>
+                </div>
+                <div class="space-saving-image slide-in-right">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Space Saving Sofa">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Compressed Sofa Collection</h2>
+                <p>Discover our range of space-saving sofas designed for modern urban living. All sofas can be customized to your exact specifications.</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card zoom-in">
+                    <div class="customizable-badge">Customizable</div>
+                    <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Transform Sofa" class="product-img">
+                    <div class="product-content">
+                        <h3>Togo</h3>
+                        <p>Compresses to 1/3 of its size for storage. Expands to a comfortable 3-seater sofa in seconds. Customize size, fabric, and color.</p>
+                        <div class="product-price">
+                            <span class="price">From ₹22500</span>
+                            <a href="#contact" class="btn">Customize</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card zoom-in">
+                    <div class="customizable-badge">Customizable</div>
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Compact Sofa Pro" class="product-img">
+                    <div class="product-content">
+                        <h3>Sofa cum Bed</h3>
+                        <p>Folds down to just 4 inches thick. Extends to a full-size sofa with storage compartments. Choose your dimensions and finish.</p>
+                        <div class="product-price">
+                            <span class="price">From ₹14499</span>
+                            <a href="#contact" class="btn">Customize</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Design Section -->
+    <section class="custom-design" id="custom">
+        <div class="container">
+            <div class="custom-design-content">
+                <div class="custom-design-text slide-in-left">
+                    <h2>Custom Compressed Sofas</h2>
+                    <p>At Wox Sofa Studio, we specialize in creating bespoke compressed sofa solutions tailored to your specific space and needs. All of our sofas can be completely customized.</p>
+                    
+                    <div class="custom-design-features">
+                        <div class="custom-feature">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>Custom dimensions for your unique space</span>
+                        </div>
+                        <div class="custom-feature">
+                            <i class="fas fa-palette"></i>
+                            <span>Choice of materials, colors, and finishes</span>
+                        </div>
+                        <div class="custom-feature">
+                            <i class="fas fa-cogs"></i>
+                            <span>Specialized compression mechanisms</span>
+                        </div>
+                        <div class="custom-feature">
+                            <i class="fas fa-eye"></i>
+                            <span>3D visualization before production</span>
+                        </div>
+                        <div class="custom-feature">
+                            <i class="fas fa-couch"></i>
+                            <span>All sofas customizable</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn">Start Your Custom Project</a>
+                </div>
+                <div class="custom-design-image slide-in-right">
+                    <img src="https://images.unsplash.com/photo-1599696848652-f0ff23bc911f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Custom Design Process">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Wox Sofa Studio</h2>
+                <p>Our compressed sofa solutions offer unique benefits for modern living spaces with complete customization.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Space Optimization</h3>
+                    <p>Maximize your living area with sofas that compress when not in use, freeing up valuable space.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Easy Delivery</h3>
+                    <p>Compressed sofas are easier to transport and maneuver through tight spaces and doorways.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Complete Customization</h3>
+                    <p>All our sofas can be tailored to your exact specifications, dimensions, and style preferences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <div class="container">
+            <div class="section-title">
+                <h2>Visit Our Studio</h2>
+                <p>Come see our compressed sofa collection in person and experience the quality firsthand.</p>
+            </div>
+            <div class="location-content">
+                <div class="location-info slide-in-left">
+                    <h3>Find Us Easily</h3>
+                    <p>Our showroom is conveniently located in Areekode, Malappuram. Visit us to see our compressed sofa collection and discuss your customization needs with our experts.</p>
+                    
+                    <div class="location-details">
+                        <div class="location-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Our Address</h4>
+                                <p>Kavanur-12<br>Near HP Petrole Pump<br>Areekode</p>
+                            </div>
+                        </div>
+                        <div class="location-detail">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Opening Hours</h4>
+                                <p>Monday - Sunday: 9:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="location-detail">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Call Us</h4>
+                                <p>+91 9447938888</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container slide-in-right">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.7245274423262!2d76.0636906!3d11.2080059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba6477b3c28bbef%3A0xd344556b2fee5573!2sWox%20Sofa%20Studio!5e0!3m2!1sen!2sin!4v1764048477622!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+                <p>Have questions about our compressed sofas or want to customize a sofa? Contact our team today.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info slide-in-left">
+                    <h3>Let's Create Your Custom Sofa</h3>
+                    <p>Our team at Wox Sofa Studio is ready to help you design the perfect compressed sofa solutions for your home or office. All of our sofas can be customized to your exact needs.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Visit Our Studio</h4>
+                                <p>Kavanur-12<br>Near HP Petrole Pump<br>Areekode</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Call Us</h4>
+                                <p>+91 9447938888</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email Us</h4>
+                                <p>woxsofastudio@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form slide-in-right">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Your Phone">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="service" name="service">
+                                <option value="">Select Sofa Interest</option>
+                                <option value="sofa">Togo</option>
+                                <option value="table">Sofa cum Bed</option>
+                                <option value="custom">Custom Project</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" id="message" name="message" placeholder="Tell us about your customization needs" required></textarea>
+                        </div>
+                        <button type="submit" class="btn" id="submitBtn" style="width: 100%;">Get Free Consultation</button>
+                        <div id="statusMsg" class="status-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Wox Sofa Studio</h3>
+                    <p>Creating innovative compressed sofa solutions for modern urban living since 2015. We're dedicated to maximizing your space with customizable sofas that don't compromise on comfort or style.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/woxsofa/"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#space-saving">Space Saving</a></li>
+                        <li><a href="#products">Sofas</a></li>
+                        <li><a href="#custom">Custom Design</a></li>
+                        <li><a href="#location">Location</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Our Sofas</h3>
+                    <ul>
+                        <li><a href="#products">Transform Sofa</a></li>
+                        <li><a href="#products">Compact Sofa Pro</a></li>
+                        <li><a href="#custom">Custom Sofas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Kavanur-12<br>Near HP Petrole Pump <br>Areekode</li>
+                        <li><i class="fas fa-phone"></i> +91 9447938888</li>
+                        <li><i class="fas fa-envelope"></i> woxsofastudio@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Wox Sofa Studio. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Chat Widget -->
+    <div class="whatsapp-widget">
+        <div class="whatsapp-chat" id="whatsappChat">
+            <div class="chat-header">
+                <i class="fab fa-whatsapp"></i>
+                <div>
+                    <h4>Wox Sofa Studio</h4>
+                    <span>Typically replies within 30 minutes</span>
+                </div>
+                <button class="chat-close" id="chatClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-body">
+                <div class="welcome-message">
+                    👋 Hello! I'm from Wox Sofa Studio. How can I help you with your compressed sofa needs?
+                </div>
+                <div class="chat-options">
+                    <a href="https://wa.me/916238142442?text=Hi%20Wox%20Sofa%20Studio%21%20I%20would%20like%20to%20inquire%20about%20your%20compressed%20sofas." target="_blank" class="chat-option">
+                        <i class="fas fa-couch"></i> Transform Sofa Inquiry
+                    </a>
+                    <a href="https://wa.me/916238142442?text=Hi%20Wox%20Sofa%20Studio%21%20I'm%20interested%20in%20the%20Compact%20Sofa%20Pro." target="_blank" class="chat-option">
+                        <i class="fas fa-compress-arrows-alt"></i> Compact Sofa Pro
+                    </a>
+                    <a href="https://wa.me/916238142442?text=Hi%20Wox%20Sofa%20Studio%21%20I%20want%20to%20discuss%20a%20custom%20sofa%20project." target="_blank" class="chat-option">
+                        <i class="fas fa-palette"></i> Custom Sofa Project
+                    </a>
+                    <a href="https://wa.me/916238142442?text=Hi%20Wox%20Sofa%20Studio%21%20I%20have%20a%20question%20about%20pricing%20and%20delivery." target="_blank" class="chat-option">
+                        <i class="fas fa-rupee-sign"></i> Pricing & Delivery
+                    </a>
+                    <a href="https://wa.me/916238142442?text=Hi%20Wox%20Sofa%20Studio%21%20I%20need%20help%20with%20my%20existing%20order." target="_blank" class="chat-option">
+                        <i class="fas fa-question-circle"></i> Support & Help
+                    </a>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <p>Click any option above to start chatting on WhatsApp</p>
+            </div>
+        </div>
+        
+        <a href="https://wa.me/919447938888?text=Hi%20Wox%20Sofa%20Studio%21%20I%20visited%20your%20website%20and%20would%20like%20to%20know%20more%20about%20your%20compressed%20sofas." target="_blank" class="whatsapp-cta" id="whatsappCta">
+            <i class="fab fa-whatsapp"></i> Chat with us
+        </a>
+        
+        <div class="whatsapp-button" id="whatsappButton">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+    </div>
+
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("lrW3JHNHD3g3Yal8K");
+            console.log("EmailJS initialized");
+        })();
+
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMsg = document.getElementById('statusMsg');
+            
+            // Disable submit button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            statusMsg.textContent = 'Sending your message...';
+            statusMsg.className = 'status-message info';
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value || 'Not provided',
+                service: document.getElementById('service').value || 'Not specified',
+                message: document.getElementById('message').value
+            };
+            
+            console.log('Sending form data:', formData);
+            
+            // Send email to business
+            emailjs.send('service_b5ina3g', 'template_2720vxi', {
+                from_name: formData.name,
+                from_email: formData.email,
+                phone: formData.phone,
+                service: formData.service,
+                message: formData.message,
+                to_email: 'woxsofastudio@gmail.com',
+                reply_to: formData.email,
+                date: new Date().toLocaleString()
+            })
+            .then(function(response) {
+                console.log('SUCCESS! Message sent to business', response.status, response.text);
+                
+                // Send auto-reply to user
+                return emailjs.send('service_b5ina3g', 'template_t2o0w7l', {
+                    to_name: formData.name,
+                    to_email: formData.email,
+                    service: formData.service,
+                    date: new Date().toLocaleString()
+                });
+            })
+            .then(function(response) {
+                console.log('SUCCESS! Auto-reply sent to user', response.status, response.text);
+                
+                // Show success message
+                statusMsg.textContent = 'Thank you! Your message has been sent successfully. Check your email for confirmation.';
+                statusMsg.className = 'status-message success';
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+            })
+            .catch(function(error) {
+                console.error('FAILED...', error);
+                
+                // Show appropriate error message
+                let errorMessage = 'Sorry, there was an error sending your message. Please try again or contact us directly at woxsofastudio@gmail.com';
+                
+                if (error.text && error.text.includes('recipients address is empty')) {
+                    errorMessage = 'Email configuration error. Please email us directly at woxsofastudio@gmail.com';
+                }
+                
+                statusMsg.textContent = errorMessage;
+                statusMsg.className = 'status-message error';
+            })
+            .finally(function() {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Get Free Consultation';
+            });
+        });
+
+        // Loading Animation
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Header scroll effect
+        let lastScrollTop = 0;
+        const header = document.getElementById('header');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            if (scrollTop > lastScrollTop && scrollTop > 200) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Enhanced Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature-card, .product-card, .contact-form, .fade-in, .slide-in-left, .slide-in-right, .zoom-in');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animate', 'visible');
+                }
+            });
+        };
+
+        // Auto-Rotating Hero Slider with 2 Products
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const progressIndicators = document.querySelectorAll('.progress-indicator');
+        const progressBars = document.querySelectorAll('.progress-bar');
+        const totalSlides = 2; // Only 2 products
+        let slideInterval;
+
+        function resetProgressBars() {
+            progressBars.forEach(bar => {
+                bar.style.transition = 'none';
+                bar.style.width = '0%';
+                // Force reflow
+                bar.offsetHeight;
+            });
+        }
+
+        function startProgressAnimation(slideIndex) {
+            const progressBar = progressBars[slideIndex];
+            progressBar.style.transition = 'width 3s linear';
+            progressBar.style.width = '100%';
+        }
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Hide all progress indicators
+            progressIndicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+            
+            // Reset all progress bars
+            resetProgressBars();
+            
+            // Show new slide
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            progressIndicators[currentSlide].classList.add('active');
+            
+            // Start progress animation for new slide
+            startProgressAnimation(currentSlide);
+        }
+
+        function nextSlide() {
+            const nextIndex = (currentSlide + 1) % totalSlides;
+            showSlide(nextIndex);
+        }
+
+        // Start the auto-rotation
+        function startAutoRotation() {
+            // Make sure first slide is active
+            showSlide(0);
+            
+            // Clear any existing interval
+            clearInterval(slideInterval);
+            
+            // Set interval to rotate every 3.5 seconds (3s hold + 0.5s buffer)
+            slideInterval = setInterval(() => {
+                nextSlide();
+            }, 3500);
+        }
+
+        // Initialize the slider when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start the rotation
+            startAutoRotation();
+        });
+
+        // Progress indicator click
+        progressIndicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                if (index < totalSlides) {
+                    clearInterval(slideInterval);
+                    showSlide(index);
+                    startAutoRotation();
+                }
+            });
+        });
+
+        // Pause on hover
+        const heroSection = document.querySelector('.hero');
+        heroSection.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+            // Pause progress bar animation
+            if (progressBars[currentSlide]) {
+                progressBars[currentSlide].style.transition = 'none';
+            }
+        });
+        
+        heroSection.addEventListener('mouseleave', () => {
+            // Resume from where it left off
+            startAutoRotation();
+        });
+
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Restart the slider on resize to ensure proper layout
+                clearInterval(slideInterval);
+                startAutoRotation();
+            }, 250);
+        });
+
+        // WhatsApp Widget Functionality
+        const whatsappButton = document.getElementById('whatsappButton');
+        const whatsappChat = document.getElementById('whatsappChat');
+        const chatClose = document.getElementById('chatClose');
+        const whatsappCta = document.getElementById('whatsappCta');
+
+        // Toggle chat widget
+        whatsappButton.addEventListener('click', () => {
+            whatsappChat.classList.toggle('active');
+            whatsappButton.classList.toggle('active');
+            whatsappCta.classList.toggle('active');
+        });
+
+        // Close chat widget
+        chatClose.addEventListener('click', () => {
+            whatsappChat.classList.remove('active');
+            whatsappButton.classList.remove('active');
+            whatsappCta.classList.remove('active');
+        });
+
+        // Close chat when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!whatsappChat.contains(e.target) && 
+                !whatsappButton.contains(e.target) && 
+                !whatsappCta.contains(e.target)) {
+                whatsappChat.classList.remove('active');
+                whatsappButton.classList.remove('active');
+                whatsappCta.classList.remove('active');
+            }
+        });
+
+        // Auto-show chat widget after 10 seconds of page load
+        setTimeout(() => {
+            // Only show on desktop devices
+            if (window.innerWidth > 768) {
+                whatsappChat.classList.add('active');
+                whatsappButton.classList.add('active');
+                whatsappCta.classList.add('active');
+                
+                // Auto-hide after 15 seconds
+                setTimeout(() => {
+                    whatsappChat.classList.remove('active');
+                    whatsappButton.classList.remove('active');
+                    whatsappCta.classList.remove('active');
+                }, 15000);
+            }
+        }, 10000);
+
+        // Track WhatsApp clicks for analytics
+        document.querySelectorAll('.chat-option, .whatsapp-cta').forEach(link => {
+            link.addEventListener('click', function() {
+                console.log('WhatsApp link clicked:', this.href);
+                // You can add Google Analytics or other tracking here
+            });
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
